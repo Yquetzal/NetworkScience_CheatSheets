@@ -16,4 +16,4 @@ Yes ! That's the whole point of sharing it here. When I was trying to create my 
 That's embarassing... But the good news is that you can correct it! Plase inform me, or even better, makes directly a pull request on the repository, and I'll make the change. 
 
 ## There is nothing about *Insert Topic Here*, it would be nice to have a cell/Cheatsheet on that
-I have made a lot of arbitrary choices when creating those documents, and I myself I'm far from satisfied about them. If you have idea to improve those cheatsheets or to create new ones, feel free to give a hand. If you create something nice, I will be glad to host it here. New/Better pictures, clarifications on some aspects or relevant references would also be very welcome.
+I have made a lot of arbitrary choices when creating those documents, and I myself I'm far from satisfied with them. If you have idea to improve those cheatsheets or to create new ones, feel free to give a hand. If you create something nice, I will be glad to host it here. New/Better pictures, clarifications on some aspects or relevant references would also be very welcome.
