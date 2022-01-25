@@ -1,5 +1,8 @@
 # Network Science Cheatsheets
-In this repository, I share the Network Science Cheatsheet, and all original content to generate them: .tex sources, figure files and notebooks to recreate most of the figures.
+In this repository, I share the Network Science Cheatsheet (PDF), and the resources to generate them: 
+* .tex sources 
+* figure files
+*  notebooks to recreate most of the figures.
 
 ## What are the Network Science Cheatsheets ?
 They are a set of compact resources to use as support for a Network Science class. I created them as the written support of my Network Science class at ENS de Lyon and University Lyon 1. (http://cazabetremy.fr/Teaching/ComplexNetworks.html)
