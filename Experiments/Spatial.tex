@@ -1,0 +1,119 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+\usepackage{listings}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Spatial Networks}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+To the best of my knowledge, there is no good library to work with spatial networks. \code{networkx} has functions to generate random spatial graphs (called geometric graphs \url{https://networkx.org/documentation/stable/reference/generators.html}), but they are not designed to fit deterrence functions, and are not adapted to work with geographical coordinates.
+\end{tcolorbox}
+\begin{tcolorbox}
+It can be useful to work on a smaller network for experimenting (you can go back to the original graph when your functions are ready) To work on a subnetwork composed of the largest nodes, you can do for instance: 
+\begin{lstlisting}[language=Python, caption=Filtering out low degree nodes]
+to_keep = [n for n,v in g.degree() if v > 10]
+g = g.subgraph(to_keep)
+\end{lstlisting}
+\end{tcolorbox}
+\begin{questions}
+\question Route Factor/ Accessibility
+\begin{parts}
+ \part Choose an origin airport, and compute the \textit{haversine distance} (also known as \textit{great circle distance}) from it to all the other nodes. Check the results. You can use the \code{haversine} function from \code{haversine} package. As previously, you can obtain the coordinates of airports with something like:
+ 
+ \code{coordinates = \{n:(g.nodes[n]["lat"],g.nodes[n]["lon"]) for n in g.nodes\}} 
+\part For all edges in the graph, compute its haversine length, and add this information as a parameter to the graph. You can use for instance \code{nx.set\_edge\_attributes}
+\part Compute the Route Distance from the chosen node to all others. You can use \code{nx.shortest\_path\_length} (don't forget to choose the right attribute !).
+\part You can now compute the Route Factor of pairs of nodes, and the Node Accessibility score of the chosen node.
+\part Compare between some nodes (large/small, occupying a central position or not...)
+
+
+Check the largest and smallest values, and comment them. 
+\end{parts}
+
+\question Influence of distance in the airport dataset
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+When studying a network with spatial information, a first step to check if it can indeed be considered as a spatial network is to compute its deterrence function.
+\end{tcolorbox}
+\begin{parts}
+\part Plot the distribution of edges length. To get a proper result, you should have bins which are not too wide (missing information) or to narrow (overfit). Is it enough to know if the network has as spatial structure, and the nature of the bias ?
+\part Plot the distribution of pairs of nodes distance. Is it flat ? why ?
+\part Draw the spatial graph, for instance using something like:
+
+\code{nx.draw\_networkx(self.graph,pos=self.coordinates,node\_size=5,edge\_color="grey",with\_labels=False)}        
+
+\part To compute the bias to observe an edge or not relatively to the distance, you can compute, for each bin, the number of existing edges over the number of possible edges. Plot it. Now you can conclude on the nature of the spatial effect.
+\part Based on the result of the previous question, generate a spatial graph with a spatial bias similar (approximated at bin resolution) to the observed one. Remember that what we computed in the previous question can be interpreted as a density, i.e., a probability to observe an edge according to the distance. (You can compare a random value with this probability for each pair of node, for instance, or pick an exact number of edges using \code{random.choices}.
+\part Plot this graph and compare its properties to the original one (e.g., clustering, average distance...)
+
+
+\end{parts}
+
+
+
+
+
+
+
+\vspace{5mm}
+\question Going further: Gravity Model
+\begin{parts}
+\part Compute a randomized version of the network using the Gravity Model. Don't forget to check that the resulting network has all the desired properties: same node positions, (approximately) similar degrees, (approximately) similar deterrence function.
+\part Compare network properties with the previous networks
+\part Create a new network by substracting the probability to observe an edge according to the gravity model to the edges in the graph. You can now obtain a much richer view of your network: to each pair of node is associated a value that can be interpreted as the exceptional character of its existence or non-existence. What are the most surprising missing edges, and most suprising edges?
+
+\end{parts}
+
+
+
+
+\end{questions}
+
+
+\end{document}

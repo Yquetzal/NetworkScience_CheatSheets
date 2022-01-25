@@ -1,0 +1,531 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[landscape,margin=0.5cm]{geometry}
+\usepackage[english]{babel}
+\usepackage{subcaption}
+\usepackage{tikz-network}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{adjustbox}
+\usepackage{booktabs}
+\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
+\DeclareMathOperator*{\argmin}{argmin} % thin space, limits underneath in displays
+
+% colour themes to come. KnitR?
+
+%-------------------------
+
+\title{\huge{Network Science Cheatsheet}}
+\author{\small{Remy Cazabet}}
+\date{}
+\input{cheatsheet-template.tex}
+
+
+
+%--------------------------------------------------------------------------------
+\begin{document}
+
+\small
+\begin{multicols}{3}
+
+%\maketitle
+
+\thispagestyle{empty}
+\scriptsize
+%\tableofcontents
+
+\input{Title}
+
+
+
+% \input{intro}
+
+
+
+
+% \input{matrices}
+
+
+
+
+
+
+
+
+
+
+
+
+% \input{centrality}
+
+% \input{ScaleFree}
+
+%\input{Homophily}
+% \input{Random}
+
+
+
+% \input{communities}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{textbox}{Edge Centralities}
+
+% O_{ij} & \textbf{Link Clustering coefficient}
+
+
+% \end{textbox}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{textbox}{Networks: Matrix notation}
+
+% Adjacency matrix $A$
+% \begin{itemize}
+%     \item $A_{ij}=0$ if link (i,j) does not exist. Otherwise, 1 (unweighted networks), or a number (weight)
+%     \item $A$ is symmetric if the network is undirected
+% \noindent\rule{4cm}{0.1pt}
+
+% \tiny{More on matrices in \ref{matrix}}
+
+% \end{itemize}
+% \end{textbox}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{textbox}{Random Graphs models}
+
+% \textbf{Erdos Renyi}
+
+% \textbf{Watts-Strogatz}
+
+% \textbf{Configuration Model}
+
+% \textbf{Stochastic Block Model}
+
+% \end{textbox}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{textbox}{Community Detection}
+
+% \textbf{Modularity}
+% Divisive
+
+% Agglomerative
+% Louvain
+
+% Overlapping
+% CPM
+
+% \textbf{Random Walk Compression - Infomap}
+
+% \textbf{SBM inference}
+
+
+% \end{textbox}
+
+
+% \begin{textbox}{Key concepts I}
+% \red{Bag-of-words (BOW)}
+
+% \green{\emph{type} vs. \emph{token}}
+% \emph{To be or not to be.} = 6 \emph{tokens}, 4 \emph{types}.
+
+% \red{\emph{type}} descriptive criterion\footcite[cf.][12]{stroustrup}
+
+% \red{\emph{token}} unit of analysis\footcites[cf.][12]{stroustrup,attentionMerchants}
+
+
+% \bigskip
+
+% \underline{Key topics}
+% \begin{itemize}
+%     \item One
+%     \item Two
+%     \item Three
+% \end{itemize}
+
+% \end{textbox}
+
+
+
+
+
+
+
+
+
+% %--------------------------------------------------------------
+% \section{Tools}
+
+
+
+% \begin{textbox}{Lorem Ipsum}
+% test  \sep test \sep test \sep test
+
+% \bigskip
+
+% \green{Visualize}
+% \begin{enumerate}
+% \item \textbf{present} your data
+% \item \textbf{analyze} the information
+% \item \textbf{explore} the findings
+% \end{enumerate}
+
+% \end{textbox}
+
+
+% \begin{textbox}{Voyant Tools}
+%  \href{https://voyant-tools.org/}{Voyant Tools} \sep \href{https://voyant-tools.org/}{Voyant Tools}
+
+% \includegraphics[width=\textwidth]{voyant.png}
+% \end{textbox}
+
+
+
+
+% \begin{textbox}{Project Gutenberg Texts}
+% \begin{tabular}{r|p{0.8\textwidth}}\scriptsize
+%     84 & \href{http://www.gutenberg.org/ebooks/84}{Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley} \\
+%     6087 & \href{https://www.gutenberg.org/ebooks/6087}{The Vampyre; a Tale by John William Polidori} \\
+%     696 & \href{https://www.gutenberg.org/ebooks/696}{The Castle of Otranto by Horace Walpole} \\
+%     42 & \href{https://www.gutenberg.org/ebooks/42}{The Strange Case of Dr. Jekyll and Mr. Hyde by Robert Louis Stevenson}
+% \end{tabular}
+
+% \end{textbox}
+
+
+
+
+
+% \begin{textbox}{Key concepts}
+% \red{Bag-of-words (BOW)}
+
+
+% \green{\emph{Zipf's Law}}
+
+% \mycommand{_&§!$§/()$}{code}
+% \mycommand{shutdown -h now}{to shutdown}
+
+% \end{textbox}
+
+
+% %--------------------------------------------------------------
+% \section{Programming}
+
+% \subsection{Code boxes}
+
+
+% % first argument: minted programming language name, for example.. css, c, cpp, etc.
+% \begin{codebox}{r}{Code box using R}
+% # Install
+% install.packages("tm")  # for text mining
+
+% # Load
+% library("tm")
+
+% # text <- readLines(file.choose())
+% # Read the text file from internet
+% filePath <- "http://www.internet.com/text.txt"
+% text <- readLines(filePath)
+
+% \end{codebox}
+
+
+% % first argument: minted programming language name, for example.. css, c, cpp, etc.
+% \begin{codebox}{cpp}{Code box using C++}
+% for (auto element : vector) 
+% {
+%     sum += element;
+% }
+% \end{codebox}
+
+% \newpage
+% \section{Smaller Subboxes}
+% \subsection{Subboxes}
+% %---------------------------------------------
+% \begin{multibox}{2} % number of boxes in a row
+% \begin{subbox}{subbox}{test}
+% \tiny
+
+
+% \bg{alert}{white}{test} 
+% \bggreen{test}\\
+
+% \end{subbox}
+% \begin{subbox}{customcolor}{test}
+% \scriptsize
+
+
+% \bgupper{w3schools}{black}{test}\\
+% \tiny
+% tiny font
+
+% \mycommand{$\lxor$}{XOR}
+% \mycommand{$\lor$}{OR}
+% \end{subbox}
+% \end{multibox}
+
+
+
+
+% %---------------------------------------------
+% \begin{multibox}{2} % number of boxes in a row
+% \begin{subbox}{subbox}{ Infos}
+
+% \bg{alert}{white}{bla}\\
+% \bgupper{w3schools}{black}{XX}\\
+
+% \end{subbox}
+% \begin{subbox}{customcolor}{ Infos}
+
+% \end{subbox}
+% \end{multibox}
+
+
+% \begin{textbox}{Subboxes}
+% %---------------------------------------------
+% \begin{multibox}{2} % number of boxes in a row
+% \begin{subbox}{subbox}{test}
+
+% \red{test} 
+% \bggreen{test}
+% \href{https://latex-ninja.com}{Link}
+% \end{subbox}
+% \begin{subbox}{customcolor}{test}
+% \scriptsize
+
+
+% \bggreen{test}
+% \tiny
+% super small font
+
+% \mycommand{$\land$}{AND $\land$}
+% \mycommand{$\lor$}{OR $\lor$}
+% \end{subbox}
+% \end{multibox}
+
+% %---------------------------------------------
+% \begin{multibox}{2} % number of boxes in a row
+% \begin{subbox}{subbox}{ Info}
+
+% \red{bla}\\
+% \bggreen{XX}\\
+
+% \end{subbox}
+% \begin{subbox}{customcolor}{Info}
+
+% \end{subbox}
+% \end{multibox}
+% \end{textbox}
+
+
+% %--------------------------------------------------------------
+
+% \begin{textbox}{bla}
+
+
+% \bgupper{w3schools}{black}{test}\\
+% \bg{alert}{white}{bla}
+% \begin{enumerate}
+%     \item \emph{bla}: bla.
+%     \item bla.
+% \end{enumerate}
+
+% %---------------------------------------------
+% \begin{multibox}{3} % number of boxes in a row
+% \begin{subbox}{subbox}{test}
+% info
+% \end{subbox}
+% \begin{subbox}{customcolor}{test}
+% $p \to q$
+% \mycommand{CTRL+C}{copy}
+% \end{subbox}
+% \begin{subbox}{subbox}{ Infos}
+% bla \\
+% more text
+% \end{subbox}
+% \end{multibox}
+
+% %---------------------------------------------
+% \begin{multibox}{3} % number of boxes in a row
+% \begin{subbox}{subbox}{ Infos}
+% info
+% \end{subbox}
+% \begin{subbox}{customcolor}{ Infos}
+% $p \to q$
+% \end{subbox}
+% \begin{subbox}{subbox}{ Infos}
+% bla \\
+% more text
+% \end{subbox}
+% \end{multibox}
+
+% \end{textbox}
+
+
+% %---------------------------------------------
+ \AtNextBibliography{\footnotesize}
+ \printbibliography  
+ \end{multicols}
+
+\end{document}

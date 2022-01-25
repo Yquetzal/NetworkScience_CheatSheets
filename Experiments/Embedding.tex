@@ -1,0 +1,116 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Graph embeddings}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+As in previous classes, if your computer has limited amount of memory or just if you want to save time when experimenting, you can create a subgraph of the airport dataset, for instance only with the most important nodes, or only nodes in a region of the world.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+For this class, we will use the \code{karateclub} library, which contains implementation of various graph embedding methods. As usual, you can install it with \code{pip install karateclub}.
+\end{tcolorbox}
+
+
+\begin{questions}
+\question Preparing the network
+\begin{parts}
+\part \code{karateclub} library requires graph to respect some specific properties: the graph must be composed of a single connected component, and node names must be integers from 0 to $n$. First, load the airport graph.
+\part Extract the highest connected component. You can use \\ \code{G=G.subgraph(max(nx.connected\_components(G), key=len)).copy()}
+\part Rename nodes from 0 to $n$, using \code{nx.relabel\_nodes}. To easily retrieve names later, you should keep a dictionary associating node numbers to names, or add the original name as an attribute to the graph (\code{nx.set\_node\_attributes})
+\end{parts}
+
+
+\question Computing your first node embedding
+\begin{parts}
+\part Using \code{karateclub} library, initialize a DeepWalk embedding model with \\ \code{model= DeepWalk(dimensions=16,window\_size=5)}. \code{dimensions} corresponds the number of dimensions in the resulting embedding, and \code{window\_size} corresponds to how far away in a random walk 2 nodes can be and still considered in the context of one another.
+\part With \code{model.fit(G)}, you can compute the embedding on graph \code{G}. On the airport dataset, it should take less than a minute or two.
+\part With \code{X = model.get\_embedding()}, you can now retrieve the embedding of all nodes as a matrix. \code{X[0]} returns a vector with $d$ elements corresponding to the vector of node 0 in the embedded space.
+
+
+\end{parts}
+
+
+
+\question Making sense of the embedding
+\begin{parts}
+\part A good way to check that the embedding makes sense is to plot it. To do so, the first step is to convert it from its original number of dimensions to 2 dimensions. You can use the TSNE method, with \code{from sklearn.manifold import TSNE} and \code{X\_2 = TSNE(n\_components=2).fit\_transform(X)}.
+\part You can now use \code{draw\_networkx}(passing the 2d embedding to the \code{pos=} parameter) or Gephi to plot the graph (with the geolayout plug-in and dimensions as latitudes and longitudes). You can either assign colors corresponding to countries to the nodes, or just look at node labels to check that nodes that are close in the graph (i.e., usually, geographically close) are close in the embedding. A quick and dirty way is simply to plot a large graph with \code{plt.figure(1,figsize=(30,30))} before calling \code{draw\_networkx}.
+\end{parts}
+
+
+\question Computing distances
+\begin{parts}
+\part Compute distances/similarities between all pairs of different nodes according to the original embedding. You can use for instance \code{sklearn.metrics.pairwise.cosine\_similarity}.
+\part What are the nodes closest to Paris (\code{PAR\_Paris}) in the embedding? Does it seem relevant for link prediction? What about the closest nodes overall? Remember that we have not used any geographical information to obtain this embedding.
+\part Using the code written for heuristics in the previous class, evaluate the quality of link prediction based on the node pair ordering. (If you do not have such a code ready, you can skip this question.) 
+\end{parts}
+
+
+
+\question Comparing embeddings
+\begin{parts}
+\part Answer the same questions as previously, using Role2Vec. Observe the difference between locational and role embedding.
+\part Answer the same questions as previously, on DeepWalk computed with a significantly different number of dimensions. Compare the results.
+\part Answer the same questions as previously, on DeepWalk computed with a significantly different context size. Compare the results.
+\end{parts}
+
+
+
+\question Going Further
+\begin{parts}
+\part Use DeepWalk embedding to do supervised link prediction.
+\end{parts}
+
+
+\end{questions}
+
+
+\end{document}

@@ -1,0 +1,124 @@
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{textbox}{Assortativity - Homophily}
+
+A network is said to be \textbf{assortative} or to demonstrate \textbf{homophily} if its nodes tend to connect more with other nodes that are \textbf{similar} than to nodes that are different. 
+
+Similarity in this case must be understood in term of nodes properties. Some typical examples can be age, gender, language, political beliefs, etc.
+
+Homophily is considered a common feature of many networks, in particular social networks, as reflected in the aphorism \textit{Birds of a feather flock together}.
+
+Some networks can also demonstrate \textbf{heterophily}, or \textbf{disassortativity}, i.e., a greater number of connections with nodes that are different (for instance, in a sentimental relationship network, women tend to connect more with men than with other women).
+
+
+
+\end{textbox}
+
+
+\begin{textbox}{Note on interpreting homophily}
+Homophily can be a link creation mechanism (nodes have a preference to connect with similar ones, so the network end up to be assortative), or a consequence of influence phenomenons (because nodes are connected, they tend to influence each other and thus become more similar).
+
+Without access to the dynamic of the network and its properties, it is not possible to differentiate those effects.
+
+
+\end{textbox}
+
+\begin{textbox}{Homophily for categorical variables}
+When the property for which we study homophily is \textbf{categorical}, i.e., there is no natural order between values, homophily is defined by counting the number of edges that connect two nodes of the same category. The assortativity score is computed by dividing the observed number of such edges to the expected number of such edges in a random network of similar properties, i.e., respecting distributions of each category. More formally, it is expressed as:
+
+\[
+r=\frac{\sum_i e_{ii} - \sum_i a_i b_i}{1- \sum_i a_i b_i}
+\]
+where $e_ii$ is the fraction of edges connecting two nodes of category $i$, $a_i=b_i$ the fraction of nodes of category $i$. Note that $a_i$ and $b_i$ can also be different in a bipartite network, for instance.
+
+Let's see a fictional example. Columns/Rows correspond to blood types, and numbers are expressed in fraction of the total population, while edges represent a social interaction.
+
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{EFEFEF}}l |
+>{\columncolor[HTML]{FFFFFF}}l 
+>{\columncolor[HTML]{FFFFFF}}l 
+>{\columncolor[HTML]{FFFFFF}}l 
+>{\columncolor[HTML]{FFFFFF}}l 
+>{\columncolor[HTML]{EFEFEF}}l |}
+\hline
+Blood Types & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}A} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}AB} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}B} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}O} & $a_i$        \\ \hline
+A           & \cellcolor[HTML]{ECF4FF}0.30                   & 0.05                                            & 0.1                                            & 0.05                                           & \textit{0.5} \\ \cline{1-1}
+AB          & 0.05                                           & \cellcolor[HTML]{ECF4FF}0.05                    & 0                                              & 0                                              & \textit{0.1} \\ \cline{1-1}
+B           & 0.1                                            & 0                                               & \cellcolor[HTML]{ECF4FF}0.2                    & 0                                              & \textit{0.3} \\ \cline{1-1}
+O           & 0.05                                           & 0                                               & 0                                              & \cellcolor[HTML]{ECF4FF}0.05                   & \textit{0.1} \\ \cline{1-1}
+$b_i$      & \cellcolor[HTML]{EFEFEF}\textit{0.5}           & \cellcolor[HTML]{EFEFEF}\textit{0.1}            & \cellcolor[HTML]{EFEFEF}\textit{0.3}           & \cellcolor[HTML]{EFEFEF}\textit{0.1}           & \textbf{1}   \\ \hline
+\end{tabular}
+
+\vspace{0.3cm}
+
+$r=\frac{(0.3+0.05+0.2+0.05)-(0.5^2+0.1^2+0.3^2+0.1^2)}{1-(0.5^2+0.1^2+0.3^2+0.1^2)}=\frac{0.6+0.36}{1-0.36}=0.375$
+
+\vspace{0.3cm}
+
+$r=0$ means that the network has no assortative mixing, $r=1$ corresponds to a perfectly assortative network (edges exist only between nodes of the same category), and $r=1$ to a perfectly disassortative network (no edge between nodes of the same category).
+\end{textbox}
+
+
+
+
+
+
+
+
+
+
+
+\begin{textbox}{Homophily for numerical variables}
+When the property for which we study homophily is \textbf{numerical}, homophily $r$ is defined as the person correlation coefficient between values at both end of each nodes. For details, see \cite{newman2003mixing}.
+
+\vspace{0.3cm}
+
+
+Homophily $r=0$ means that the network has no assortative mixing, $r>0$ corresponds to an assortative network (nodes with high values tend to connect to high values), and $r<0$ to a disassortative network (nodes with high values are preferably connected to low values).
+
+\end{textbox}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{textbox}{Degree assortativity}
+\textbf{Degree assortativity}, sometimes simply called \textit{assortativity}, is a particular case of homophility measuring homophily in term of node degrees, i.e., the numerical value of each node is its degree.
+
+The existence of a degree assortativity can be interpreted in term of a \textit{rich club phenomenon}: hubs prefer to connect to other hubs.
+
+\end{textbox}
+
+
+
+% \begin{textbox}{Neighbor connectivity }
+% \textbf{Neighbor connectivity} is another way to study the correlation between node degrees. The principle is to study how the degree of nodes relates to the average degree of its neighbors, i.e., the relation between $k_u$ and \frac{1}{|N_u|}$\sum_{v\in N_u} k_v$ for all $u$. The sign of the correlation between those variables inform about the 
+
+%%%% Be careful, check the relation with the friendship paradox
+% \end{textbox}
+
+
+
+
+
+
+

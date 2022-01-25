@@ -1,0 +1,41 @@
+\documentclass[a4paper,11pt]{book}
+\usepackage{import}
+\usepackage{preamb}
+
+\makeindex
+
+\begin{document}
+
+\input{head}
+\newpage
+\input{Title}
+% \section{Blocks and Community structure}
+
+
+\begin{subbox}{subbox}{}
+\centering
+\Large{\textbf{Graph Visualization}}
+\end{subbox}
+
+
+
+\begin{textbox}{Drawing graphs}
+Drawing a graph can be useful to understand its structure. For instance, when confronted with the graph below, one can make the following observation:
+\begin{itemize}
+    \item Everyone is not connected to everyone
+    \item The graph is not regular
+    \item Nodes 0, 32, 33 have a large degree while nodes 11,26, etc. have low degrees
+    \item Some groups of nodes seem to be \textit{far away} from others, e.g., 4,5,6 are far from 14,15,18
+    \item ...
+\end{itemize}
+
+
+\end{textbox}
+
+
+
+\input{tail}
+
+\end{document}
+
+

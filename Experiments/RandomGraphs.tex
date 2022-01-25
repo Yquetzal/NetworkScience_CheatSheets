@@ -1,0 +1,90 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with randomized versions of networks}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+\begin{questions}
+
+
+
+\question Comparing networks and their randomized versions.
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+ I recommend to use the airport dataset for interpreting results, but if it is too slow, you can write your code on a smaller network, such as the TV series dataset.
+\end{tcolorbox}
+%This question has several parts
+\begin{parts}
+\part Using networkx, load the airport dataset.
+\part Generate an ER random version of it. You can use \code{gnp\_random\_graph} or \code{gnm\_random\_graph} methods.  
+\part Generate also a configuration model version of it, using \code{expected\_degree\_graph}, and the degrees observed for the real network (e.g., with \code{g.degree})
+\part Compare the network properties of the 3 different versions of the graph, at least the average degree, clustering coefficient, average path length. Interpret in terms of small-worldness
+\part Compute the (approximate) betweenness, closeness, and PageRank of nodes in the three networks. Compare the largest values between them: are the nodes of highest values the same? Are the highest score similar?
+\part Plot the distribution of degrees, betweenness and closeness for each network, and compare them. You can use \code{seaborn} package and functions \code{distplot} and/or \code{scatterplot}+\code{collections.Counter}, and/or \code{ecdfplot}. You can plot with loglog scales (\code{ax.set(xscale="log", yscale="log")}).
+\end{parts}    
+
+
+
+\vspace{5mm}
+\question Going further : Flavors of the Configuration Model
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+We have seen that there are several ways to generate random graphs, usually at least a \textit{soft} and a \textit{sharp} versions (An independent probability to have an edge for each pair of nodes to reach an expected average degree, or a fix number of edges distributed among pairs of nodes). Let's explore the differences in more details.
+\end{tcolorbox}
+%This question has several parts
+\begin{parts}
+\part Check the documentation of the \code{configuration\_model}, \code{expected\_degree\_graph} \\ and \code{random\_degree\_sequence\_graph}. Do you see the difference? What are the types returned by these functions, \code{Graph} or \code{MultiGraph}?
+\part Try to generate graphs of increasing density. For the sake of simplicity, you can generate uniform distributions, such as the degree raises from 0 to $N-1$.
+\part Do you run into problems with some methods?
+\part Check the degree distribution of the models, are they identical?
+\part Check the number of self-loops and multiple edges. How does it evolves with the density?
+\part Generate a power law degree sequence, either manually, or using the \code{random\_powerlaw\_tree\_sequence} method, or extracting it from a real graph. Generate random graphs using the 3 variants.
+\part Check using network metrics how different the generated networks are. Most scores are not well defined for MultiGraphs, if you transform it into a simple graph first, how does it affect the results? 
+\end{parts}
+
+
+
+
+\end{questions}
+
+
+\end{document}

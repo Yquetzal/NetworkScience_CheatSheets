@@ -1,0 +1,93 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+\usepackage{hyperref}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with networkx}}}
+\end{center}
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+The \textbf{Going further} section is not thought to be done in class. Check it only if you have finished earlier or if you want to know more.
+\end{tcolorbox}
+
+
+\begin{questions}
+\question Simple network analysis with python and networkx.
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black]
+  \code{networkx} package has a good documentation. To get started, do the beginning of the tutorial: \url{https://networkx.org/documentation/stable/tutorial.html}. After that, the best way to find what you're searching for is to ask google. For instance, if you wonder how to compute the betweenness centrality with networkx, just search \textit{betweenness networkx} in google and your first result will certainly contain the answer.
+\end{tcolorbox}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black]
+ I highly recommend to use Jupyter Notebook to make those experiments. Notebooks allow to run pieces of codes without reloading the whole data everytime. If you don't have it installed yet, you can use online notebooks, such as \url{https://colab.research.google.com}.
+\end{tcolorbox}
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+  The airport dataset is a network of connections between airports, i.e., an edge exist between two airports if a company offer a direct flight between the two. It is available on the webpage of the class.
+\end{tcolorbox}
+%This question has several parts
+\begin{parts}
+\part Using networkx, load the airport dataset using \code{read\_graphml}. (in google colab, you can first retrieve it with \code{!wget http://cazabetremy.fr/Teaching/CN2020/airportsAndCoord.graphml}
+\part Compute the number of nodes and edges of your graph. A simple way to go is to use \code{len} on \code{g.nodes} and \code{g.edges}
+\part Compute the density and the clustering coefficent (\code{nx.density(g)}, \code{nx.transitivity(g)})
+\part Compute the average shortest path length and the diameter of the graph. You'll encounter a connected component issue. Can you understand why? As a solution, you need to apply those methods on the largest connected component, that you can extract with\\ \code{cc = g.subgraph(sorted(nx.connected\_components(g), key=len, reverse=True)[0])}
+\part Obtain the list of the 20 nodes of highest and lowest degrees. You can use \code{degree} and \\ \code{sorted(X, key=lambda x: x[1])} for instance.
+\part Compute the list of the 20 nodes of highest and lowest Pagerank. You might need to use \code{items()} to transform a dictionary in a list of pair.  Observe the differences.
+\part Do the same for the betweenness (You might need to check parameter \code{k} of the function). Where in hell is \textbf{Anchorage}? And \textbf{Port\_Moresby}? Investigate a little to understand what is going on. How many neighbors do these nodes have, and who are they?
+\part Check with other typical node centralities.
+\part Check edge betweenness. 
+\part Would you say that the network is a \textit{small world} network ? To compare with a random network, you can generate one with \code{gnm\_random\_graph}.
+\part Plot the network using \code{draw\_networkx}. Check the documentation to see how you could improve your plot (node colors, size, layouts, etc.) Note that in many cases, it is simpler to do it with Gephi.
+\part Use the \code{pos} argument to plot nodes according to their geographical position. You can access node attributes either by using \code{get\_node\_attributes}, or by simply accessing the node, i.e.: \code{G.node['node\_name']}gives existing attributes of this node,  \code{G.node['node\_name']["attribute1"]} gives the value of an attribute for a node
+\part It can be useful to export a graph with computed node or edges properties. Add their PageRank score to nodes as an attribute using \code{set\_node\_attributes}.
+\part Save the graph in graphml format using \code{write\_graphml}. Check that you can open this file with Gephi and that the PageRank score is available as a node property.
+\end{parts}    
+
+
+
+\vspace{5mm}
+\question Going further : Robustness
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+When analyzing networks of infrastructure, transport or telecommunication, the \textit{robustness} or \textit{resilience} of the network is a popular investigation topic. Robustness can be defined as the capacity of the network to resist attacks and/or failures. The resistance can be measured in several ways, and attacks and failures can be modeled differently too. We will briefly investigate this question on the airport dataset.
+\end{tcolorbox}
+%This question has several parts
+\begin{parts}
+\part Let's define a simple measure of how \textit{efficient} the network is as the fraction of nodes belonging to the largest connected component. Write a function computing this score, given a network.
+\part Write a function which, given an ordered list of nodes, remove them one by one from the network, compute the robustness measure at each step, and return the result.
+\part First, let's compute the resistance of the network to \textit{failures}, i.e., random node removals. Generate a vector containing all nodes in a random order, and call the function defined above on it. Plot the results, i.e., robustness as a function of nodes removed. Repeat a few times to see how much it depends on the order of nodes.
+\part Let's now test the resistance to \textit{attacks}, i.e., we will remove nodes in a specific order, and search for the most damaging strategy. Pick your favorites centralities, and check which one is the most efficient.
+\part Could you think of other strategies that could be even more efficient? Well, test them!
+\end{parts}   
+
+
+
+\end{questions}
+
+
+\end{document}

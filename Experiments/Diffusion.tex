@@ -1,0 +1,136 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+\usepackage{listings}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Spreading Processes}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+Several libraries exist to do diffusion on networks. I propose to use \code{ndlib}, that can be installed using \code{pip}. 
+
+You can have a look at the tutorial to get started: \url{https://ndlib.readthedocs.io/en/latest/tutorial.html}.
+
+
+\end{tcolorbox}
+
+
+\begin{questions}
+
+
+
+\question Spreading on a real network
+
+\begin{parts}
+\part Initialize a SIR model on the airport network using 
+\begin{lstlisting}[language=Python]
+import ndlib.models.epidemics as ep
+model = ep.SIRModel(g)
+\end{lstlisting}
+\part Create and initialize a custom configuration for your model, following \url{https://ndlib.readthedocs.io/en/latest/tutorial.html#configure-the-simulation}. Start with 1\% of nodes infected, and a same value for $\beta$ and $\gamma$.
+\part Still following the tutorial, run the simulation, plot the evolution of the fraction of nodes that are Infected and Removed. Note: you need to run the command \code{output\_notebook()} once before \code{show()} in order for the plot to appear in a notebook. If it is too fast or too slow, adjust the parameters.
+\part Run the simulation a few times and observe if the results differ from one run to the next.
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+\textbf{Tip}: if you want, you can "play" the evolution of the diffusion on the graph by doing 1 or a few iterations at a time, and plotting the graph with something like:
+\code{nx.draw\_networkx(g,pos=coordinates,node\_color=list(model.status.values()),with\_labels=False)} 
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+\textbf{Optional}: To properly study the results of simulations, you should analyze results averaged over many simulations. If you see how to do such tests with python, you can extract the results of a simulation using for instance \code{trends[0]["trends"]["node\_count"][1]}, and create averaged plots, or learn how to use ndlib build-in tools.
+\end{tcolorbox}
+
+\end{parts}
+
+\question Spreading compared with synthetic networks
+\begin{parts}
+\part Create an ER random graph with the same number of nodes and edges than the airport network. Run an \textbf{SIS} model on it (check the names of parameters at \url{https://ndlib.readthedocs.io/en/latest/reference/models/epidemics/SIS.html}), initially with \code{beta=0.1} and \code{lambda=0.1}.
+\part Let's say that we identified a virus with \code{lambda=0.1}, and that we can use policies to reduce $\beta$. What is the value of $\beta$ above which there will be an outbreak, in theory, on this ER random network ?. Check that if the value is below it, the diffusion stops early, and that, if it is above, the diffusion reach a stable point at a value which depends only on the parameter and the average degree.
+\part Test the same model on the original network, with values of $\beta$ below and above the threshold. What do you observe?
+\end{parts}
+
+\question Optimal node removal
+\begin{parts}
+\part Let's assume that we can vaccinate some limited fraction of nodes. In practice, vaccinated nodes are removed from the network before running the SIS model. Starting with \code{beta=0.1} and \code{lambda=0.1}, what fraction of nodes to you need to vaccinate so that the virus infect less than 30\% of non-vaccindated nodes?
+You can remove random nodes with:
+\begin{lstlisting}
+g2=g.copy()
+g2.remove_nodes_from(random.sample(list(g.nodes()), X))
+\end{lstlisting}
+\part Same question but removing nodes of largest degrees. You can for instance use the following code to sort airports by degree:
+\code{top\_nodes = sorted(dict(g.degree).items(),key=lambda x:x[1],reverse=True)} 
+(be careful to then extract the nodes names as a list) 
+\part Same question but removing nodes of largest betweenness
+\end{parts} 
+
+\question Going further: Dependence on initial conditions
+
+\begin{parts}
+\part Using \code{cfg.add\_model\_initial\_configuration("Infected", infected\_nodes)}, you can choose which nodes are infected in the beginning. Start by infecting the 5 nodes of highest degrees, then the 5 nodes of lowest degrees. Observe the differences.
+\part Start by infecting 5 nodes in the same country, and then 5 random nodes. Observe the differences.
+\end{parts}
+
+
+
+
+% \vspace{5mm}
+% \question Going further
+% \begin{parts}
+% \part Choose 1 or a few nodes in the same country, and some parameters that will ensure a large spread of the virus, but not higher than 80\%. Run many simulations, and memorize the infected nodes.
+% \part Create plots in which the color of nodes correspond to their probability to be infected after 5 steps, 50 steps, 300 steps.
+% \part Can you find good predictors of the infection or not of a node? You could check for instance their centralities, distance to originally infected nodes, belonging to the same community or not, geographical distance, etc.
+
+% \end{parts}
+
+
+
+
+\end{questions}
+
+
+\end{document}

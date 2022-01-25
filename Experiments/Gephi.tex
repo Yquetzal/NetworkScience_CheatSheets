@@ -1,0 +1,97 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Gephi}}}
+\end{center}
+
+\vspace{5mm}
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+The objective of those exercises is to become familiar with the functionalities of Gephi. Do not hesitate to ask questions if there is something you do not understand \\  
+\end{tcolorbox}
+\vspace{5mm}
+
+%Here, the questions begin
+\begin{questions}
+
+%First question below
+\question Visualizing small networks with Gephi
+%This question has several parts
+\begin{parts}
+\part Using Menu \code{File>Open}, open one of the small networks, downloaded from the page of the class.
+\part Using the bottom left panel, change the layout. Try in particular \textit{Fruchterman Reingold}, \textit{Yifan Hu}, \textit{expansion}, \textit{noverlap}, \textit{ForceAtlas 2}. Try to play with the parameters of ForceAtlas 2 (\textit{prevent overlap}, \textit{LinLog mode}, etc.).
+\part You can move nodes by dragging them. Right clicking on them provide additional functionalities.
+\part Zoom in/out using the wheel of your mouse. The position of the cursor is the center of the zoom
+\part By clicking with the right button of your mouse on the background and dragging, you can move the window/graph around.
+\part Using the top left panel, assign the \textbf{size} of nodes to be proportional to their degree.
+\part Using the bottom left panel, change the layout to adapt to these new sizes.
+\part Use the button \code{T} at the bottom to display the name of nodes. Using another option at the bottom, make \textbf{node names proportional to node size}.
+\part Using the \code{Statistics} tab of the right panel, compute PageRank
+\part Using the top left panel, you can now assign a color scale to nodes corresponding to their PageRank score.
+\part Have a look at the \code{Data Laboratory} window, accessible by clicking on the button of the same name at the top of your window. Check the data for both Nodes and Edges (panels on the top left)
+\part Go back to \code{Overview} window, and, using the right panel, compute the different statistics. Observe the generated plots.
+\part Go back to the \code{Data Laboratory} window, and observe that new columns have been created when you computed statistics.
+\part Check that you can now change the color and size of nodes (overview, top-left) based on those statistics.
+\part Would you say (informally, without comparing with a null model at this point) that the network is a \textit{small world} network ?
+\end{parts}
+\question Visualizing larger networks with Gephi, and spatial networks
+%This question has several parts
+\begin{parts}
+\part If not done already, using Menu \code{File$>$Open}, open the network called airports from the page of the class.
+\part Manipulate it as the previous one
+\part From Menu \code{Tools>Plugins}, install the plugin called \code{geolayout}.
+\part In the layout panel, you now have a new layout called geolayout. Use the Equirectangular projection and a scale of 1 to position nodes according to a latitude and longitude positions.
+\part Use the \code{Filters} tab in the right panel to filter some nodes and/or edges in your graph. For instance, remove the nodes of lower degree,  edges of lower weight, edges of higher betweenness, etc.
+
+
+\end{parts}
+
+\question Application
+%This question has several parts
+\begin{parts}
+\part Using all what you have learned, create a nice looking visualization of your favorite network.
+\part Share your visualization with others in the corresponding Discord channel
+\end{parts}
+\vspace{5mm}
+%\droptotalpoints %Prints the number of points in this question
+
+%The next two questions are multiple choice examples
+%-------------------------------------------------------------------
+
+
+
+
+\end{questions}
+
+
+\end{document}

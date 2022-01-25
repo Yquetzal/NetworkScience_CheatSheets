@@ -1,0 +1,69 @@
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{textbox}{Node Similarity}
+
+When studying a network, one might be interested in comparing nodes between themselves, for instance to discover the most similar nodes in the network, or to assess if two nodes they are interested in share a similar network location. 
+
+\noindent\rule{4cm}{0.1pt}
+
+A first approach is to define the similarity between nodes $u$ and $v$, as their number of common neighbors, $\sigma_{u,v}$ as: $\sigma_{u,v}=|N_u \cap N_v|$. 
+
+
+\noindent\rule{4cm}{0.1pt}
+
+A weakness of this approach is that high degree nodes tend to be considered similar to low degree nodes.
+A variant consists in normalizing by nodes degrees, thus computing the Jaccard Coefficient of neighborhoods: 
+\[
+\sigma_{u,v}= \frac{|N_u \cap N_v|}{|N_u \cup N_v|-2}
+\]
+
+\end{textbox}
+
+
+\begin{textbox}{Cosine Similarity}
+
+\textbf{Cosine similarity} $\sigma^{\cos}$ is a standard method to compare \textit{vectors}. It is defined for two vectors $x,y$ as :
+\[
+\sigma^{\cos}_{xy} = \frac{x.y}{|x||y|}
+\]
+
+This score can be used to measure the similarity between nodes neighborhoods by using as vector $x_u$ of node $u$ the row of the adjacency matrix corresponding to this node, i.e., $x_u=A_u$.
+
+Cosine similarity of nodes then simplifies to:
+
+\[
+\sigma^{\cos}_{uv} = \frac{|N_u \cap N_v|}{\sqrt{k_u k_v}}
+\]
+
+\end{textbox}
+
+
+\begin{textbox}{Pearson coefficient }
+
+\textbf{Pearson coefficient} is a standard measure of correlation between variables $X$ and $Y$, which is defined as :
+\[
+r_{X,Y}=\frac{cov(X,Y)}{\sigma_X \sigma_Y}
+\]
+with $cov$ the covariance and $\sigma$ the standard deviation.
+
+Much as for Cosine Similarity, we can adapt this measure to nodes similarities by considering $A$'s rows as discrete variables. The result can be understood intuitively by observing that the numerator becomes:
+\[
+cov(u,v)=|N_u \cap N_v|- \frac{k_u k_v}{N}
+\]
+which can be interpreted as the \textbf{number of common neighbors minus the expected number of common neighbors} in a randomized network, given nodes degrees.
+
+\noindent\rule{4cm}{0.1pt}
+
+$cov(u,v)=0$ means that the number of common neighbors is exactly what we would expect by chance given their degrees, while positive values means that they have more than expected (resp. for negative values).
+
+\end{textbox}

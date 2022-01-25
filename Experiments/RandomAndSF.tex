@@ -1,0 +1,113 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with randomized versions of networks}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+\begin{questions}
+
+
+
+\question Comparing networks and their randomized versions.
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+ I recommend to use the airport dataset for interpreting results, but if it is too slow, you can write your code on a smaller network, such as the TV series dataset.
+\end{tcolorbox}
+%This question has several parts
+\begin{parts}
+\part Using networkx, load the airport dataset.
+\part Generate an ER random version of it. You can use \code{gnp\_random\_graph} or \code{gnm\_random\_graph} methods.  
+\part Generate also a configuration model version of it, using \code{expected\_degree\_graph}, and the degrees observed for the real network (e.g., with \code{g.degree})
+\part Compare the network properties of the 3 different versions of the graph, at least the average degree, clustering coefficient, average path length (takes $<$3 min. on a google colab notebook). Interpret in terms of small-worldness
+\part Compute the (approximate) betweenness, closeness, and PageRank of nodes in the three networks. 
+\part Compare the values for nodes of higher degrees between the configuration model and the real graph. Are they similar or different ?
+\part Plot the distribution of degrees, betweenness and closeness for each network, and compare them.
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+Plotting properly power-law distributions can be tricky. A simple way to do it is to use \code{collections.Counter} to count occurences of each degree, and plot the resulting keys and values as a \textit{scatter plot} (x=degree,y=occurences(frequencies)). With \code{seaborn} you can also use \code{ecdfplot} to plot cumulative distributions.You can plot with loglog scales (\code{ax.set(xscale="log", yscale="log")}).
+\end{tcolorbox}
+\end{parts}    
+
+
+
+\vspace{5mm}
+\question Going further : Generating Scale-Free networks with Preferential Attachment.
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+Networkx has a function to create networks following the preferential attachment principle (\code{barabasi\_albert\_graph}), but we would like to study the dynamic of the model, so we will code our own version.
+\end{tcolorbox}
+\begin{parts}
+\part Using networkx, generate an initial random ER network composed of a small number of nodes
+\part Write a \code{for} loop, such as each iteration adds a new node to the network, with a small number of edges, each of them connected to existing nodes with a probability proportional to their degree (\textit{preferential attachment}). You can use, for instance, the method \code{random.choices}
+\part Plot the degree distribution, with and without a \textbf{log-log} scale.
+\part We want to observe how node degrees increase over time. For a few nodes (e.g., nodes 1, 2, 3, 9, 10, 11, 19, 20, 21), plot the evolution of their degree, for instance on a plot such as x=iteration, y=degree, one line per node. 
+\part Compare the degree distribution after the first, last, and some intermediary steps.
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+To plot several distributions on a same plot, you can either use \code{seaborn.scatterplot}, providing a \textit{long form} pandas dataframe, i.e., a dataframe with 3 columns (x,y,label) such as each row correspond to one point (x,y) of the experiment represented by \textit{label}. The plot is then done calling \code{scatterplot(x="x",y="y",hue="label",data=dataframe)}. Another solution is to call several time pyplot \code{plt.plot(x, y, 'color', label='label')} function.
+\end{tcolorbox}
+\part Vary the number of initial nodes, the number of nodes to add and the number of edges added by each node, and observe how the final degree distribution is affected.
+
+
+\end{parts}    
+
+
+
+\vspace{5mm}
+\question Going further : fitting exponents
+%This question has several parts
+\begin{parts}
+\part We have seen that a power law distribution is defined by its exponent. We would like to find the exponent of our distribution. First, we try to find it manually. The exponent is the slope of the line on a log-log plot. Can you find it \textit{graphically}? (e.g., if you move one unit to the right on the x axis, how many units are you going down on the y axis to stay on the line)
+\part Let's try to fit by trial and error. Draw lines corresponding to power law distributions of intersect $C$ and exponent $\alpha$, using the formula of the power law distribution.
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+A simple way to draw distribution is to generate series of values for x, e.g., \code{x = np.arange(1,100, dtype=float)}, and then to compute the y value for each of those x, e.g., \code{y = a*x+b)}
+\end{tcolorbox}
+\part A naive way to fit the exponent would be to use a least-square regression on log values, i.e., find the slope of the line that we can observe on a log-log plot. You can use for instance the \code{LinearRegression} method of package sklearn, \code{model = LinearRegression.fit(log\_x,log\_y)}, with log\_x and log\_y being the log values of observed x and y. Intercept and exponent can be obtained with \code{model.intercept\_} and \code{model.coef\_}. 
+\part Plot the line and check how well it fits the model. If you're not satisfied, try to impose min and max values of degree to consider.
+\part Fitting power laws with least square is known to be tricky. The \code{powerlaw} package has been developed to help doing it properly. Using the documentation \url{https://pythonhosted.org/powerlaw/}, use the package to find the exponent of your distribution. How close is it from your previous experiments? Which one corresponds the most to what is known in theory about the exponent of the prefential attachment model?
+\end{parts}
+
+
+
+
+\end{questions}
+
+
+\end{document}

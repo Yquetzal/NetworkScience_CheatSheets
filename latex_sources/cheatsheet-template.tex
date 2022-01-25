@@ -1,0 +1,93 @@
+\usepackage[default]{raleway}
+\usepackage{fontawesome}
+\usepackage[T1]{fontenc}
+
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{lipsum}
+
+\usepackage{xcolor}
+\definecolor{customcolor}{HTML}{616AC5}
+\definecolor{alert}{HTML}{CD5C5C}
+\definecolor{w3schools}{HTML}{4CAF50}
+\definecolor{subbox}{gray}{0.60}
+\definecolor{codecolor}{HTML}{FFC300}
+\colorlet{xx}{customcolor}
+
+
+%--------------------------Editor mode.
+
+\usepackage
+[%sectionbib,openany,
+citestyle=authoryear,
+sorting=nty,	  		%Sorts bibliography by year, name, title
+autocite=footnote, 		%Autocite command generates footnotes
+autolang=hyphen, 		
+mincrossrefs=1, 	
+backend=biber]
+{biblatex}
+
+\DeclareFieldFormat{postnote}{#1}
+\DeclareFieldFormat{multipostnote}{#1}
+\DeclareAutoCiteCommand{footnote}[f]{\footcite}{\footcites}
+
+\bibliography{literature}
+%----------------------------------------
+%--------------------------------------------------------------------------------
+\usepackage{tcolorbox}
+
+\tcbuselibrary{most,listingsutf8,minted}
+
+\tcbset{tcbox width=auto,left=1mm,top=1mm,bottom=1mm,
+right=1mm,boxsep=1mm,middle=1pt}
+
+\newenvironment{mycolorbox}[2]{%
+\begin{tcolorbox}[grow to left by=-1em,grow to right by=-1em,capture=minipage,fonttitle=\large\bfseries, enhanced jigsaw,boxsep=1mm,colback=#1!30!white,on line,tcbox width=auto, toptitle=0mm,colframe=#1,opacityback=0.7,nobeforeafter,title=#2]%
+}{\end{tcolorbox}\\[0.2em]}
+
+\newenvironment{subbox}[2]{%
+\begin{tcolorbox}[capture=minipage,fonttitle=\normalsize\bfseries, enhanced jigsaw,boxsep=1mm,colback=#1!30!white,on line,tcbox width=auto,left=0.3em,top=1mm, toptitle=0mm,colframe=#1,opacityback=0.7,nobeforeafter,title=#2]\footnotesize %
+}{\normalsize\end{tcolorbox}\vspace{0.1em}}
+
+\newenvironment{multibox}[1]{%
+\begin{tcbraster}[raster columns=#1,raster equal height,nobeforeafter,raster column skip=1em,raster left skip=1em,raster right skip=1em]}{\end{tcbraster}}
+
+\newenvironment{textbox}[1]{\begin{mycolorbox}{customcolor}{#1}}{\end{mycolorbox}}
+
+%-------------------------------
+\newtcblisting{codebox}[2]{colback=codecolor!5,colframe=codecolor!80!black,listing only, 
+minted options={numbers=left,style=tcblatex,fontsize=\tiny,breaklines,autogobble,linenos,numbersep=3mm},
+left=5mm,enhanced,
+title=#2, fonttitle=\bfseries,
+listing engine=minted,minted language=#1}
+
+%--------------------------------------------------------------------------------
+\newcommand{\punkti}{~\lbrack\dots\rbrack~}
+
+\renewenvironment{quote}
+               {\list{\faQuoteLeft\phantom{ }}{\rightmargin\leftmargin}%
+                \item\relax\scriptsize\ignorespaces}
+               {\unskip\unskip\phantom{xx}\faQuoteRight\endlist}
+               
+
+%--------------------------------------------------------------------------------
+\newcommand{\bgupper}[3]{\colorbox{#1}{\color{#2}\huge\bfseries\MakeUppercase{#3}}}
+\newcommand{\bg}[3]{\colorbox{#1}{\bfseries\color{#2}#3}}
+
+\newcommand{\mycommand}[2]{{\ttfamily\detokenize{#1}}~\dotfill{}~{\footnotesize #2}\\}
+\newcommand{\sep}{{\scriptsize~\faCircle{ }~}}
+
+
+\newcommand{\bggreen}[1]{\medskip\bgupper{w3schools}{black}{#1}\\[0.5em]}
+\newcommand{\green}[1]{\smallskip\bg{w3schools}{white}{#1}\\}
+\newcommand{\red}[1]{\smallskip\bg{alert}{white}{#1}\\}
+
+\usepackage{multicol}
+\setlength{\columnsep}{5pt}
+
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+
+\usepackage{csquotes}
+
+\newcommand{\loremipsum}{Lorem ipsum dolor sit amet.}

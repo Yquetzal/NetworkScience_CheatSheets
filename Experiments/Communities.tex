@@ -1,0 +1,133 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usepackage{hyperref}
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Community Structure}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+\begin{questions}
+
+
+
+\question Detecting your first Community Structure
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+To detect communities, you can use the \code{cdlib} package. It also contains functions for evaluation and comparison of partitions. For details, check the documentation at \code{\url{https://cdlib.readthedocs.io/en/latest/}}
+
+\textbf{!!!} With google colab, you can install it with \code{!pip install cdlib}, but, due to a colab bug, you also need to do first: 
+
+\code{!pip uninstall python-louvain}
+validate with \code{y}, then
+\code{!pip install python-louvain}.
+\end{tcolorbox}
+\begin{parts}
+\part Using \code{networkx}, load the  airport dataset, provided as a graphml file. (reminder: you can download it in colab with \code{!wget URL} with URL the url of the file.
+\part Using \code{cdlib}, detect communities on this network using the louvain method. You have to use the \code{algorithms.louvain} method (and do \code{from cdlib import algorithms} before.
+%\part Add the communities found on your graph as a node property, using \code{NodeCluster.to\_node\_community\_map()} and \code{nx.set\_node\_attributes}. 
+\part Visualize the communities found. In order to interpret them, you should draw each node at its geographical location, with a color per community. 
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+There are several ways to draw a spatial network with colors corresponding to communities, from using Gephi to plotting points on an interactive map using \code{folium}.
+
+Here, I provide a simple code to plot the data as a simple scatter plot
+
+\begin{lstlisting}[language=Python, caption=plot on a map]
+import seaborn as sns
+import matplotlib.pyplot as plt
+x= list(nx.get_node_attributes(g,"lon").values())
+y= list(nx.get_node_attributes(g,"lat").values())
+
+coms_dict=coms.to_node_community_map()
+hues=list(coms_dict[n][0] for n in g.nodes())
+
+plt.figure(figsize=(12,8))
+sns.scatterplot(x=x,y=y,hue=hues,palette=sns.color_palette
+("tab20",len(coms.communities)),s=5)
+\end{lstlisting}
+\end{tcolorbox}
+
+\part Vary the resolution parameter and observe changes in the community structure.
+
+\end{parts}    
+
+
+
+
+\vspace{5mm}
+\question Comparing Partitions
+%This question has several parts
+\begin{parts}
+\part The provided airport data also contains information about the country of each airport, which can be interpreted as a \textit{ground truth} partition of the network. 
+
+You can obtain it using \code{nx.get\_node\_attributes(g,"country")}. Transform this information into a \code{NodeClustering} object of \code{cdlib}
+
+(\code{nc = NodeClustering(partition,graph,"GroundTruth")}, with \code{partition} a list of list of nodes.
+\part Compute the AMI, NMI, or another similarity score (\url{https://cdlib.readthedocs.io/en/latest/reference/evaluation.html}) between the community structure and the partition in countries
+\part By exploring with a for loop the values of the resolution parameter for modularity, find the partition with the highest similarity to the partition in countries.
+\part Compare visually the results, and try to interpret it. Is the partition in country a meaningful topological partition, i.e., is studying this network by considering that nodes in a same country form a coherent/homogeneous group a good approach? (yes and no, probably...)
+\end{parts}
+
+
+
+
+
+\vspace{5mm}
+\question Going further : Intuitions on the SBM
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+I propose this exercise using only networkx and cdlib. You could do much more with SBM using \code{graph-tool} package (real SBM inference, degree-corrected SBM, Hierarchical SBM, etc.), but it requires a little bit more time to get used to at first, so I recommend it only if you're particularly interested in the topic.
+\end{tcolorbox}
+%This question has several parts
+\begin{parts}
+\part Compute the block matrix for a reasonable partition of the graph. For a given partition, you need to count the number of edges between and inside each community.
+\part Using networkx \code{stochastic\_block\_model} method, generates a graph based on the computed block matrix
+\part Using the network and node descriptors that you know, compare the properties of this generated graph with the properties of your original graph (and with a simple ER or configuration model). How is it different? How is it similar? Think about clustering coefficient, average distance, distribution of node centralities, degree distribution, etc.
+\part How do these properties change when you increase/decrease the number of blocks?
+\end{parts}
+
+
+
+
+\end{questions}
+
+
+\end{document}

@@ -1,0 +1,84 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Assortativity}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+\begin{questions}
+
+
+
+\question Characterising a simple network
+
+\begin{parts}
+\part Using \code{networkx}, load the airport dataset (graphml)
+\part Compute the assortativity of the \code{country} attribute, using \code{attribute\_assortativity\_coefficient} function. What does it mean?
+\part Compute the degree assortativity using the \code{degree\_assortativity\_coefficient} function. What does it mean?
+\part Compare the degree assortativity with a randomized version of the graph, to check if it is similar or significantly different
+\part Compute the average degrees of neighbors using \code{average\_degree\_connectivity}. You can plot it, for instance as a scatter plot.
+\part Do the same analyis of degree assortativity and correlation on other networks, for instance those included in networkx such as \code{nx.karate\_club\_graph()} or \code{nx.les\_miserables\_graph()} 
+\part In a previous experiment, you computed communities on the airport graph. You can save those communities as a node attribute in the graph. Get them as a dictionary with
+
+\code{partition=louvain\_com.to\_node\_community\_map()}, and insert them using \code{set\_node\_attributes}. Be careful, CDlib clusterings allow overlap, so in the dictionary, communities are in lists. So you need to do something like \code{\{k:v[0] for k,v in partition.items()\}}. Compute the assortativity coefficient of the community structure(s), and compare it with the one obtained for countries. What do you think of the results?
+\end{parts}    
+
+
+
+
+
+\vspace{5mm}
+\question Going further : Network$\rightarrow$Assortativity$\rightarrow$Network
+\begin{parts}
+
+\part Using the \code{attribute\_mixing\_dict} function, you can compute the number of edges between nodes of a given attribute. Use this to create a network in which nodes correspond to countries. (tip: the \code{Graph()} constructor function of networkx accept dictionaries.) 
+\part Try to plot and characterize quickly this network.
+\part To obtain a more interesting network, we should keep only links between countries which are not expected by chance, given the degree of countries. Using formula of the assortativity coefficient as an inspiration, propose a way to create such a network. Beware negative values...
+\part Plot this network and compare it with the one obtained with the naive approach.
+\end{parts}
+
+
+
+
+\end{questions}
+
+
+\end{document}

@@ -1,0 +1,112 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{url}
+
+
+%This block of commented code translates default words to Spanish
+%-------------------------------------------------------------
+%\pointpoints{punto}{puntos}
+%\bonuspointpoints{punto extra}{puntos extra}
+
+%\totalformat{Pregunta \thequestion: \totalpoints{} puntos}
+
+%\chqword{Pregunta}
+%\chpgword{Página}
+%\chpword{Puntos}
+%\chbpword{Puntos extra}
+%\chsword{Puntos obtenidos}
+%\chtword{Total}
+
+%\boxedpoints
+%-------------------------------------------------------------
+
+\begin{document}
+%This code creates the text before the first question
+%-------------------------------------------------------------------
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Experimenting with Machine Learning on Graphs}}}
+\end{center}
+
+% \vspace{5mm}
+% \begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+% You can do the exercises in the order that you prefer. \\  
+% the \textit{Going further} experiments take more time and I do not expect everyone to do them.
+% \end{tcolorbox}
+% \vspace{5mm}
+
+%Here, the questions begin
+
+\begin{tcolorbox}[colback=black!5!white,colframe=white!75!black]
+If your computer has limited amount of memory or just if you want to save time when experimenting, you can work on a subgraph of the airport dataset, for instance only with the most important nodes, or only nodes in a region of the world.
+\end{tcolorbox}
+
+\begin{questions}
+\question Training and Validation set
+\begin{parts}
+\part Let's start by creating a training set for the Airport dataset. A training set is composed of $t$ edges (taken at random) and $t$ pairs of nodes without edges (taken at random). You can use \code{random.sample}(\url{https://www.geeksforgeeks.org/python-random-sample-function/}) to pick randomly edges (or pairs of nodes). Typically, you can choose $t=L/6$($L$ is the number of edges in the original graph). Keep randomly chosen edges and non-edges in separated lists. Note that, when the graph is large, creating the list of all pair of nodes without edges is costly. Instead, you can select 2 list of nodes with repetitions of the same size, and then consider that to each position of the lists corresponds a pair of nodes. Don't forget to remove loops, duplicates and actual edges. 
+\part Remove edges of the training set from the graph.(\code{remove\_edges\_from})
+%\part Do the same to create a validation set. To simplify, make it balanced too (we will validate with AUROC score).
+\end{parts}
+
+
+\question Computing heuristics
+\begin{parts}
+\part Using existing functions in \code{networkx},(\code{adamic\_adar\_index}, etc., see \url{https://networkx.org/documentation/stable/reference/algorithms/link_prediction.html}) compute common heuristics between all (or a sample of) pairs of nodes on the graph.
+\part Find the 20 node pairs of higher and lower scores, for each heuristic. Are these rankings intuitively a good starting point? 
+(A simple way to sort is to transform the output of heuristics into dictionaries (dict(nx.adamic\_adar\_index(...))), and then use the same method as in previous experiments (or search for something like \textit{"sort dictionary by value python"} in google.)
+
+\end{parts}
+
+
+
+% \question Evaluating heuristics efficiency
+% \begin{parts}
+% \part We will use function \code{roc\_auc\_score} from package \code{scikit-learn}. It takes as input two lists, representing for each pair of nodes in our \textbf{validation set}, 1)the true label (1 for an edge, 0 for non-edges), and 2)A score for this pair of nodes. Create those lists (ensure that the order of node pairs is the same in all lists.)
+% \part Evaluate the quality of each heuristic according to the AUROC score. (Note that we have not used the training set at this point.)
+% \end{parts}
+
+
+\question Using Machine Learning
+\begin{parts}
+\part We will use the \code{sklearn.linear\_model.LogisticRegression} function to train our model. To train the model, we will use the following method: \code{clf = LogisticRegression().fit(X, y)}, as in the example of the documentation. We need to prepare $X$ and $y$. $X$ represents the \textit{input} and can be provided as a list of list: each of the internal list corresponds to the features of one node pair. y is the list of values to predict. For instance, \code{X=[[1,3,1],[2,20,10]]},\code{y=[1,0]} corresponds to a training set with 2 examples, each having 3 features, the first one being an edge and the second one a non-edge. Prepare $X$ (combining all computed heuristics) and $y$ from the training set. (you can create $y$ by using something like \code{[1]*len(train\_edges)+[0]*len(train\_non\_edges)}. For $X$, you code can look something like  \code{[[AA[e],CN[e],PA[e]] for e in train\_edges+train\_non\_edges]}
+\part Train the model. (call \code{fit(X,y)})
+\part Use function \code{LogisticRegression.predict\_proba(Xvalidate)} to get predictions for all pairs of nodes without edges in the original graph.
+\part Sort the most likely pairs of nodes. Check the results.
+%\part Compute the AUROC score of this new prediction. Compare with using each of the heuristic alone
+\end{parts}
+
+
+% \vspace{5mm}
+% \question Going further: Spatial Model
+% \begin{parts}
+% \part In a previous class, we have built a spatial model of this network. Do you see how we could use such a model for link prediction? Compare results obtained with such a model with those obtained using Machine Learning.
+% \part Can we combine the prediction made by heuristics and by the spatial model to improve the prediction?
+
+% \end{parts}
+
+\vspace{5mm}
+\question Going further: Node attributes prediction
+\begin{parts}
+\part Hide the country information of 20\% of airports. We could imagine that this information was missing in the database. Propose a ML based method to assign a country to those airports and check the results.
+%\part Hide the location information of 20\% of airports. Propose a method to rediscover their location.
+\end{parts}
+
+
+\end{questions}
+
+
+\end{document}
