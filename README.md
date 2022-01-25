@@ -1,5 +1,5 @@
 # Network Science Cheatsheets
-In this repository, I share the Network Science Cheatsheet (PDF), and the resources to generate them: 
+In this repository, I share the Network Science Cheatsheets (PDF), and the resources to generate them: 
 * .tex sources 
 * figure files
 *  notebooks to recreate most of the figures.
