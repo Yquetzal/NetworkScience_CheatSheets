@@ -247,7 +247,7 @@ It is defined as $D-A$, with $D$ the \textit{Degree matrix} of the graph, define
 
 \begin{textbox}{Laplace Operator}
 
-Intuitively, the Laplace operator is a generalization of the second derivative, and is defined in discrete situations, for each value, as the sum of differences between the value and its "neighbors". e.g., in time, the 2\textsuperscript{nd} derivative \textit{acceleration} is the difference between current speed and previous speed. In a B\&W picture, it's the difference between the greylevel on current pixel and the greylevel of 4 or 8 closest pixels, and perform \textit{edge detection}. On a graph, with $W$ a column vector representing values on nodes, $LW$ computes for each node the difference to neighbors. 
+Intuitively, the Laplace operator is a generalization of the second derivative, and is defined in discrete situations (discrete Laplace operator), for each element, as the sum of differences between the element and its "neighbors". e.g. In a B\&W picture, it's the difference between the greylevel on current pixel and the greylevel of 4 or 8 closest pixels, and it performs \textit{edge detection}. On a graph, with $W$ a column vector representing values on nodes, $LW$ computes for each node the difference to neighbors. 
 \end{textbox}
 
 
