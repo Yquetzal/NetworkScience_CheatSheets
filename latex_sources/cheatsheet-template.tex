@@ -13,7 +13,7 @@
 \definecolor{subbox}{gray}{0.60}
 \definecolor{codecolor}{HTML}{FFC300}
 \colorlet{xx}{customcolor}
-
+%\usepackage[outputdir=.texifytmp]{minted}
 
 %--------------------------Editor mode.
 
@@ -36,7 +36,8 @@ backend=biber]
 %--------------------------------------------------------------------------------
 \usepackage{tcolorbox}
 
-\tcbuselibrary{most,listingsutf8,minted}
+%\tcbuselibrary{most,listingsutf8,minted}
+\tcbuselibrary{most,listingsutf8}
 
 \tcbset{tcbox width=auto,left=1mm,top=1mm,bottom=1mm,
 right=1mm,boxsep=1mm,middle=1pt}
@@ -55,11 +56,10 @@ right=1mm,boxsep=1mm,middle=1pt}
 \newenvironment{textbox}[1]{\begin{mycolorbox}{customcolor}{#1}}{\end{mycolorbox}}
 
 %-------------------------------
-\newtcblisting{codebox}[2]{colback=codecolor!5,colframe=codecolor!80!black,listing only, 
-minted options={numbers=left,style=tcblatex,fontsize=\tiny,breaklines,autogobble,linenos,numbersep=3mm},
-left=5mm,enhanced,
-title=#2, fonttitle=\bfseries,
-listing engine=minted,minted language=#1}
+%\newtcblisting{codebox}[2]{colback=codecolor!5,colframe=codecolor!80!black,listing only,  options={numbers=left,style=tcblatex,fontsize=\tiny,breaklines,autogobble,linenos,numbersep=3mm},
+%left=5mm,enhanced,
+%title=#2, fonttitle=\bfseries,
+%listing engine=minted,minted language=#1}
 
 %--------------------------------------------------------------------------------
 \newcommand{\punkti}{~\lbrack\dots\rbrack~}

@@ -65,19 +65,18 @@ $c_i$ & community $i$, a set of nodes \\
 
 
 \begin{textbox}{Modularity}
-The most famous quality function to measure the \textit{quality} of partitions is called the \textbf{Modularity}. Introduced in \footcite{girvan2002community}, it is defined for a partition $C$ and a graph $G$ as the difference between the fraction of observed internal edges and the expected fraction of internal edges if $G$ were rewired according to a configuration model, i.e., preserving the degrees of nodes.
+The most famous quality function to measure the \textit{quality} of partitions is the \textbf{Modularity}. Introduced in \footcite{girvan2002community}, it is defined for a partition $C$ and a graph $G$ as the difference between the fraction of observed internal edges and the expected fraction of internal edges if $G$ were rewired according to a configuration model, i.e., preserving the degrees of nodes.
 
-More formally, 
-\[
-Q=\frac{1}{L}\sum_{i=1}^{|C|}(L_{i}-\frac{1}{2}K_i^2)
-\]
-with $L_{i}=L(H(c_i))$ the number of edges inside community $i$ and $K_i=\sum_{u \in c_i}k_u$ the sum of degrees of nodes in community $i$.
-
-The original formulation of modularity, often found in the literature, is:
 \[
 Q=\frac{1}{2L}\sum_{uv}\left[ A_{uv}-\frac{k_uk_v}{2L}\right] \delta(c_u,c_v)
 \]
-with $\delta(c_u,c_v)$ the kronecker delta between communities, i.e., $\delta(c_u,c_v)=1$ if nodes $u$ and $v$ belong to the same community, 0 otherwise.
+with $\delta(c_u,c_v)$ the kronecker delta, i.e., $\delta(c_u,c_v)=1$ if $u$, $v$ belong to the same community, 0 otherwise.
+It can be rewritten for convenience as a sum over communities:
+\[
+Q=\frac{1}{L}\sum_{i=1}^{|C|}(L_{i}-\frac{K_i^2}{4L})
+\]
+with $L_{i}=L(H(c_i))$ the number of edges inside community $i$ and $K_i=\sum_{u \in c_i}k_u$ the sum of degrees of nodes in community $i$.
+
 
 
 \end{textbox}
@@ -202,9 +201,10 @@ A stochastic block model is a random graph model defined by:
 \begin{tabular}{p{0.08\textwidth}|p{0.8\textwidth}}\scriptsize
 
 % \begin{itemize}
- $k$ & number of blocks \\ 
  $b$ & $n\times 1$ vector such as $b_i$ describes the index of the block of node $i$. \\
- $E$ & $k\times k$ \textbf{stochastic block matrix}, such as $E_{ij}$ gives the number of edges between blocks $i$ and $j$ (or the probability to observe an edge between any pair of nodes chosen with one node in each of the two blocks).
+ $E$ & $k\times k$ \textbf{stochastic block matrix}, such as $E_{ij}$ gives the number of edges between blocks $i$ and $j$ (or the probability to observe an edge between any pair of nodes chosen with one node in each of the two blocks).\\
+% \begin{itemize}
+ $\theta$ & $n\times 1$ vector representing the node degrees (optional)
 % \end{itemize}
 \end{tabular}
 \end{textbox}
@@ -217,7 +217,6 @@ More formally, the objective is:
 b:=\argmax_{b} P(A|b)
 \]
 
-Note that with this formulation, it is not possible to infer the number of clusters $k$, since the trivial solution in which each node belongs to its own block, with $E=A$ has a maximal probabity (1) to generate the observed graph. The desired number of clusters is thus a necessary parameter of this type of SBM inference.
 \end{textbox}
 
 
@@ -225,23 +224,78 @@ Note that with this formulation, it is not possible to infer the number of clust
 
 
 
-\begin{textbox}{SBM infering the number of blocks}
+\begin{textbox}{SBM: Simple Graphs}
+Assuming a simple graph, the probability to observe a graph $A$ given a partition $b$ is computed as the product, for each pair of node, of the probability to obtain the observed situation: edge or no-edges. It uses a Bernouilli distribution.
+\[
+p(A|b,E)=\prod_{i<j}\begin{cases} E_{b_i b_j} & \text{if } A_{ij}=1 \\
+1- E_{b_i b_j} & \text{if } A_{ij}=0 \end{cases}
+\]
+\end{textbox}
+
+
+\begin{textbox}{SBM: Poisson}
+Other assumptions on the distribution can be made. For scalability reasons, a common one is to assume a poisson distribution of edges
+\[
+P(A|b,E)=\prod_{i<j}\frac{(E_{b_ib_j})^{A_{ij}}}{A_{ij}!}e^{-E_{b_ib_j}}
+\]
+Assuming that $A$ is sparse, Poisson or Bernouilli tends toward the same results for large graphs.
+\end{textbox}
+
+
+\begin{textbox}{DC-SBM: Degree Correction}
+Much as the Modularity null model preserving nodes degrees, modern SBM usually integrate a degree correction
+
+\[
+P(A|b,E,\theta)=\prod_{i<j}\frac{(\theta_i \theta_j E_{b_ib_j})^{A_{ij}}}{A_{ij}!}e^{-\theta_i \theta_j E_{b_ib_j}}
+\]
+as $E$, the optima $\theta$ is deducted from $b,a$:
+\[
+\hat{\theta_i}=\frac{k_i}{\kappa_{b_i}}
+\]
+with $\kappa_{b_i}$ the sum of degrees in $i$'s cluster
+\end{textbox}
+
+
+\begin{textbox}{SBM: quality function}
+The probability to observe a graph can be simplified\footcite{karrer2011stochastic}, using log transformation and getting rid of constants, into objective functions as simple to compute as the modularity.\\
+Poisson, with self-loops ($m$=nb edges, $n$=nb nodes)
+\[
+\mathcal{L}(A|b)=\sum_{rs}m_{rs}\log\frac{m_{rs}}{n_r n_s}{\displaystyle}
+\]
+Poisson, with self-loops, degree corrected ($\kappa$=sum of degrees)
+\[
+\mathcal{L}(A|b)=\sum_{rs}m_{rs}\log\frac{m_{rs}}{\kappa_r \kappa_s}{\displaystyle}
+\]
+\end{textbox}
+
+\begin{textbox}{SBM: number of blocks}
+As defined until now, the inference has a trivial solution: each node being in its own block, and $A=E$. The probability of such a model to generate the observed graph is maximal (1 for simple graphs).
+
+
+The solution to this problem is often to fix the number of blocks. This approach is not satisfying in the general case, when we do not know the expected number of blocks.
+
+\end{textbox}
+
+\begin{textbox}{SBM: infer the number of blocks}
 More recently, approaches\footcite{peixoto2019bayesian} have been proposed to infer also automatically the number of blocks. They adopt an approach from Information Theory called the Minimum Description Length (MDL), whose principle is to find the description which reduces the total cost of describing a graph, by minimizing both 1)The quantity of information needed to encode the graph, knowing that it is generated by a given model, and 2)The quantity of information needed to encode the model itself. Intuitively, a model with few blocks requires little information to be described, contrary to a model with many blocks. But a model with many blocks is more \textbf{constrained}, the graphs it generates are more \textit{specific}, and therefore can be described at a lesser cost, knowing the model.
 
 \end{textbox}
+
+
+
 
 
 \begin{textbox}{SBM infering blocks: equation}
 
 More formally, we can decompose the probability of observing a graph and a model as:
 \[
-P (A, k, E, b) = P (A|k, E, b)P (k|E, b)P (E|b)P (b)
+P(A|b)= P(A|\theta, E, b) P(\theta|E, b) P(E|b)P (b)
 \]
-with the last three probabilities being \textit{priors}.  Said differently, we can define the number of bits required to encode a model as $L = -log_2 P(k,b)$, the number of bits necessary to encode a graph knowing the model as $S = -log_2 P(A|k,b)$ and thus the total cost to minimize as $S+L$. 
+with the last three probabilities being \textit{priors}.  Said differently, we can define the number of bits required to encode a model as $L = -log_2 P(\theta,E,b)$, the number of bits necessary to encode a graph knowing the model as $S = -log_2 P(A|\theta,E,b)$ and thus the total cost to minimize as $S+L$. 
 
 The objective thus becomes:
 \[
-b:=\argmin_{b} - log_2 P(k,b) - log_2 P(A|k,b)
+b:=\argmin_{b} - log_2 P(\theta,E,b) - log_2 P(A|\theta,E,b)
 \]
 
 \end{textbox}
