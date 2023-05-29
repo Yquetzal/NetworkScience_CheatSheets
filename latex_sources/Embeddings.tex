@@ -161,13 +161,13 @@ Various other fields, including network science, have therefore adapted the mech
 
 
 \begin{textbox}{DeepWalk}
-DeepWalk\footcite{perozzi2014deepwalk} is the direct transcription of Word2vec to graphs. The principle is to generate random walks in the graph, playing the role of sentences in a corpus. The probability of finding a word in the vicinity of another therefore translates in the probability of encountering a node in a random walk from another.
+DeepWalk\footcite{perozzi2014deepwalk} is the direct transcription of Word2vec to graphs. The principle is to generate random walks in the graph, playing the role of sentences in a corpus. The probability of finding a word in the vicinity of another therefore translates in the probability of encountering a node in the context window of another, i.e., at a short random-walk distance.
 
 To sum up, the objective function can now be expressed as:
 \[
 y=\min \sum_{(i,j)} p(n_j|n_i)-\sigma(y_i y_j^T)
 \]
-with $p(n_j|n_i)$ the probability to encounter node $n_j$ in a random walk of a chosen length starting from node $n_i$. Its objective is therefore to make the distance in the embedding proportional to a random walk based distance in the graph.
+with $p(n_j|n_i)$ the probability to encounter node $n_j$ in the context of node $n_i$. Its objective is therefore to make the distance in the embedding proportional to a random walk based distance in the graph.
 \end{textbox}
 
 \begin{textbox}{DeepWalk complexity}
